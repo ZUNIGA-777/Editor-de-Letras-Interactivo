@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor de Letras Interactivo</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Cargar Monaco Editor -->
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/editor/editor.main.min.css">
+</head>
+<body>
+  <h2>Editor de Letras Interactivo</h2>
+  
+  <div id="advancedControls">
+    <div style="text-align: center; margin-bottom: 10px;">
+      <input type="password" id="apiKeyInput" placeholder="Ingresa tu Google Cloud API Key">
+    </div>
+    <div class="voice-controls">
+      <div>
+        <label for="voiceSelect">Voz:</label>
+        <select id="voiceSelect"></select>
+      </div>
+      
+      <div>
+        <label for="rateControl">Velocidad:</label>
+        <input type="range" id="rateControl" min="0.5" max="2" step="0.1" value="1">
+        <span id="rateValue">1.0</span>
+      </div>
+    </div>
+  </div>
+  
+  <div id="controls">
+    <button id="clearBtn" title="Borrar Todo">🗑️</button>
+    <button id="organizeBtn" title="Organizar Letras" style="display: none;">↔️</button>
+    <button id="luminousBtn" title="Brillante">✨</button>
+    
+    <div class="control-group" id="playbackControls" style="display: none;">
+      <button id="playBtn" title="Reproducir Todo">▶️</button>
+      <button id="stopBtn" title="Detener">⏹️</button>
+    </div>
+    
+    <button id="editorModeBtn" title="Modo Editor" style="display: none;">👨🏻‍💻</button>
+    <button id="interactiveModeBtn" title="Modo Interactivo">🎮</button>
+  </div>
+  
+  <div id="container" tabindex="0">
+    <div id="editorContainer"></div>
+  </div>
+  <div id="palette"></div>
+
+  <script>
+    // Configurar Monaco Editor loader
+    var require = { paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }};
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/loader.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/editor/editor.main.nls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/editor/editor.main.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

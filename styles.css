@@ -1,0 +1,439 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap');
+    
+:root {
+  --primary-color: #2D3047;
+  --secondary-color: #5C6784;
+  --accent-color: #E8C547;
+  --light-color: #F9F8F8;
+  --dark-color: #1A1B26;
+  --canvas-color: #F6F8FF;
+  --shadow-color: rgba(45, 48, 71, 0.15);
+  --button-shadow: 0 4px 12px rgba(45, 48, 71, 0.2);
+  --panel-shadow: 0 8px 24px rgba(45, 48, 71, 0.18);
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(145deg, #1A1B26 0%, #2D3047 100%);
+  color: var(--light-color);
+  padding: 2.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: -0.5px;
+  position: relative;
+  text-shadow: 0 0 10px rgba(232, 197, 71, 0.3);
+}
+
+h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+#controls {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(45, 48, 71, 0.8);
+  padding: 1.2rem;
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  border: none;
+  overflow-y: auto;
+  background: linear-gradient(145deg, #2D3047 0%, #1A1B26 100%);
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  cursor: text;
+  letter-spacing: normal !important;
+  border-radius: 16px;
+  box-shadow: 
+    inset 0 2px 10px rgba(0, 0, 0, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#container:focus {
+  box-shadow: 
+    inset 0 2px 10px rgba(0, 0, 0, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 2px var(--accent-color);
+  outline: none;
+}
+
+.letter {
+  position: absolute;
+  font-size: 30px;
+  font-family: 'Playfair Display', serif;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transform-origin: center center;
+  transition: transform 0.2s ease;
+  white-space: nowrap;
+  color: var(--light-color);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+/* Efecto luminoso estático exactamente como en el original */
+.letter.luminous {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  filter: brightness(1.5);
+}
+
+#palette {
+  position: absolute;
+  display: none;
+  background: rgba(45, 48, 71, 0.95);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 
+    0 10px 25px rgba(0,0,0,0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  grid-template-columns: repeat(4, 36px);
+  gap: 8px;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  transform: translateY(10px);
+  animation: slide-up 0.3s forwards cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slide-up {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 
+    0 3px 6px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.swatch:hover { 
+  transform: scale(1.15); 
+  box-shadow: 
+    0 5px 12px rgba(0,0,0,0.4),
+    0 0 10px currentColor;
+}
+
+button {
+  padding: 12px 18px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(145deg, #3A3D5C 0%, #2D3047 100%);
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 12px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  color: var(--light-color);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 15px rgba(0,0,0,0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 2px 5px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+#clearBtn {
+  background: linear-gradient(135deg, #FF6B6B 0%, #E63946 100%);
+  color: white;
+}
+
+#clearBtn:hover {
+  background: linear-gradient(135deg, #FF5B5B 0%, #D62936 100%);
+}
+
+#organizeBtn {
+  background: linear-gradient(135deg, #FFD166 0%, #F4A261 100%);
+  color: #774D00;
+}
+
+#organizeBtn:hover {
+  background: linear-gradient(135deg, #FFC156 0%, #E49251 100%);
+}
+
+#luminousBtn {
+  background: linear-gradient(135deg, #90E0EF 0%, #48CAE4 100%);
+  color: #003D4D;
+  font-size: 20px;
+}
+
+#luminousBtn:hover {
+  background: linear-gradient(135deg, #80D0DF 0%, #38BAD4 100%);
+}
+
+#luminousBtn.active {
+  background: linear-gradient(135deg, #48CAE4 0%, #0096C7 100%);
+  color: white;
+  box-shadow: 0 0 15px rgba(72, 202, 228, 0.5);
+}
+
+#playBtn {
+  background: linear-gradient(135deg, #8AC926 0%, #52B788 100%);
+  color: #003618;
+}
+
+#playBtn:hover {
+  background: linear-gradient(135deg, #7AB916 0%, #42A778 100%);
+}
+
+#stopBtn {
+  background: linear-gradient(135deg, #FF6B6B 0%, #E63946 100%);
+  color: white;
+}
+
+#stopBtn:hover {
+  background: linear-gradient(135deg, #FF5B5B 0%, #D62936 100%);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.voice-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+select, .voice-controls input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 2px solid rgba(232, 197, 71, 0.3);
+  background: rgba(45, 48, 71, 0.7);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--light-color);
+  box-shadow: 
+    0 2px 6px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+select:focus, .voice-controls input:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  box-shadow: 
+    0 0 10px var(--accent-color),
+    0 2px 10px rgba(0,0,0,0.3);
+}
+
+.control-group {
+  background: rgba(45, 48, 71, 0.7);
+  padding: 10px 16px;
+  border-radius: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-shadow: 
+    0 4px 12px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.control-group label {
+  font-size: 14px;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--light-color);
+}
+
+#advancedControls {
+  background: rgba(45, 48, 71, 0.7);
+  padding: 1.2rem;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+  border-radius: 4px;
+  box-shadow: 
+    inset 0 1px 3px rgba(0,0,0,0.3),
+    0 1px 1px rgba(255, 255, 255, 0.1);
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  cursor: pointer;
+  border: 2px solid var(--accent-color);
+}
+
+/* Estilos para el editor de Monaco */
+#editorContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* Ajustes para el cursor del editor */
+.monaco-editor .cursor {
+  background-color: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
+  width: 2px !important;
+}
+
+/* Ocultar el editor cuando estamos en modo interactivo */
+#editorContainer.hidden {
+  display: none;
+}
+
+/* Botones para cambiar entre modos */
+#editorModeBtn, #interactiveModeBtn {
+  background: linear-gradient(135deg, #3A3D5C 0%, #2D3047 100%);
+  color: white;
+}
+
+#editorModeBtn:hover, #interactiveModeBtn:hover {
+  background: linear-gradient(135deg, #4A4D6C 0%, #3D4057 100%);
+}
+
+/* Estilo para el texto brillante en el editor */
+.luminous-text {
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  filter: brightness(1.5);
+}
+
+/* Estilo para el input de API Key */
+#apiKeyInput {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 2px solid rgba(232, 197, 71, 0.3);
+  background: rgba(45, 48, 71, 0.7);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--light-color);
+  box-shadow: 
+    0 2px 6px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+/* Media query para pantallas menores a 432px */
+@media (max-width: 432px) {
+  #apiKeyInput {
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+}
+
+/* Estilo para el mensaje de placeholder */
+#instructionMsg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--light-color);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  max-width: 80%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+#instructionMsg.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Estilo para el botón de sonido */
+#soundToggleBtn {
+  background: linear-gradient(135deg, #FF9E7D 0%, #FF6B6B 100%);
+  color: white;
+}
+
+#soundToggleBtn:hover {
+  background: linear-gradient(135deg, #FF8E6D 0%, #FF5B5B 100%);
+}
+
+#soundToggleBtn.active {
+  background: linear-gradient(135deg, #FF6B6B 0%, #E63946 100%);
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+}
